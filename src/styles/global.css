@@ -1,0 +1,29 @@
+:root {
+	--color-bg: #ffffff;
+	--color-text: #1a1a1a;
+	--color-accent: #0a4d8c;
+	--font-body: system-ui, sans-serif;
+	--max-width: 1200px;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	font-family: var(--font-body);
+	color: var(--color-text);
+	background: var(--color-bg);
+	line-height: 1.5;
+}
+
+a {
+	color: var(--color-accent);
+}
+
+.container {
+	max-width: var(--max-width);
+	margin-inline: auto;
+	padding-inline: 1.5rem;
+}

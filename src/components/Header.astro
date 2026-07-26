@@ -1,0 +1,57 @@
+---
+const navItems = [
+	{ label: 'Home', href: '/' },
+	{ label: 'About', href: '/about' },
+	{ label: 'Contact', href: '/contact' },
+];
+---
+
+<header class="site-header">
+	<div class="container header-inner">
+		<a href="/" class="brand">SANAND</a>
+		<nav>
+			<ul>
+				{navItems.map((item) => (
+					<li><a href={item.href}>{item.label}</a></li>
+				))}
+			</ul>
+		</nav>
+	</div>
+</header>
+
+<style>
+	.site-header {
+		border-bottom: 1px solid #e5e5e5;
+	}
+
+	.header-inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding-block: 1rem;
+	}
+
+	.brand {
+		font-weight: 700;
+		font-size: 1.25rem;
+		text-decoration: none;
+		color: var(--color-text);
+	}
+
+	nav ul {
+		display: flex;
+		gap: 1.5rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	nav a {
+		text-decoration: none;
+		color: var(--color-text);
+	}
+
+	nav a:hover {
+		color: var(--color-accent);
+	}
+</style>
