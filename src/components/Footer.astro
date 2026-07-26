@@ -1,19 +1,149 @@
 ---
+import { withBase } from '../lib/paths';
+
 const year = new Date().getFullYear();
+
+const solutionLinks = [
+	{ label: 'Wafer Processing', href: '/solutions/wafer-processing' },
+	{ label: 'Package Assembly', href: '/solutions/package-assembly' },
+	{ label: 'Wire Bond', href: '/solutions/wire-bond' },
+	{ label: 'Package Saw', href: '/solutions/package-saw' },
+];
+
+const companyLinks = [
+	{ label: 'About SANAND', href: '/about' },
+	{ label: 'Technology Partners', href: '/partners' },
+	{ label: 'Resources', href: '/resources' },
+	{ label: 'News & Insights', href: '/news' },
+];
 ---
 
 <footer class="site-footer">
-	<div class="container">
-		<p>&copy; {year} SANAND. All rights reserved.</p>
+	<div class="container footer-grid">
+		<div class="footer-brand">
+			<a href={withBase('/')} class="brand">
+				SANAND<span class="brand-sub">SemiConnect Trading</span>
+			</a>
+			<p class="tagline">More Than a Reseller &mdash; engineering solutions for semiconductor manufacturing.</p>
+		</div>
+
+		<div class="footer-col">
+			<p class="eyebrow">Solutions</p>
+			<ul>
+				{solutionLinks.map((l) => <li><a href={withBase(l.href)}>{l.label}</a></li>)}
+			</ul>
+		</div>
+
+		<div class="footer-col">
+			<p class="eyebrow">Company</p>
+			<ul>
+				{companyLinks.map((l) => <li><a href={withBase(l.href)}>{l.label}</a></li>)}
+			</ul>
+		</div>
+
+		<div class="footer-col">
+			<p class="eyebrow">Contact</p>
+			<ul class="contact-list">
+				<li>Email: <span class="pending">pending confirmation</span></li>
+				<li>Phone: <span class="pending">pending confirmation</span></li>
+				<li>Philippines &mdash; <span class="pending">address pending</span></li>
+				<li><a href={withBase('/contact')}>Full contact page &rarr;</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="container footer-bottom">
+		<p>&copy; {year} SANAND SemiConnect Trading. All rights reserved.</p>
+		<p class="footer-note">Site content is being progressively confirmed &mdash; see flagged sections.</p>
 	</div>
 </footer>
 
 <style>
 	.site-footer {
-		border-top: 1px solid #e5e5e5;
-		margin-top: 3rem;
-		padding-block: 1.5rem;
-		color: #666;
-		font-size: 0.875rem;
+		border-top: 1px solid var(--color-border);
+		margin-top: 4rem;
+		background: var(--color-surface);
+	}
+
+	.footer-grid {
+		display: grid;
+		grid-template-columns: 1.4fr 1fr 1fr 1fr;
+		gap: 2.5rem;
+		padding-block: 3rem 2rem;
+	}
+
+	@media (max-width: 760px) {
+		.footer-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+
+	.brand {
+		display: flex;
+		flex-direction: column;
+		text-decoration: none;
+		color: var(--color-ink);
+		font-weight: 800;
+		font-size: 1.15rem;
+	}
+
+	.brand-sub {
+		font-family: var(--font-mono);
+		font-size: 0.6rem;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--color-text-muted);
+		font-weight: 600;
+	}
+
+	.tagline {
+		margin-top: 0.85rem;
+		color: var(--color-text-muted);
+		font-size: 0.9rem;
+		max-width: 32ch;
+	}
+
+	.footer-col .eyebrow {
+		margin-bottom: 0.85rem;
+	}
+
+	.footer-col ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.55rem;
+		font-size: 0.9rem;
+	}
+
+	.footer-col a {
+		text-decoration: none;
+		color: var(--color-text);
+	}
+
+	.footer-col a:hover {
+		color: var(--color-primary);
+	}
+
+	.contact-list .pending {
+		color: var(--color-flag);
+		font-family: var(--font-mono);
+		font-size: 0.78rem;
+	}
+
+	.footer-bottom {
+		border-top: 1px solid var(--color-border);
+		padding-block: 1.25rem;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem 1.5rem;
+		justify-content: space-between;
+		font-size: 0.8rem;
+		color: var(--color-text-muted);
+	}
+
+	.footer-bottom p {
+		margin: 0;
 	}
 </style>

@@ -1,30 +1,49 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import FloatingCta from '../components/FloatingCta.astro';
+import Seo from '../components/Seo.astro';
+import { withBase } from '../lib/paths';
 import '../styles/global.css';
 
 interface Props {
 	title: string;
 	description?: string;
+	noindex?: boolean;
 }
 
-const { title, description = 'SANAND official corporate website' } = Astro.props;
+const {
+	title,
+	description = 'SANAND SemiConnect Trading supplies semiconductor consumables, process materials and engineering support for semiconductor manufacturing in the Philippines.',
+	noindex = false,
+} = Astro.props;
+
+// Only confirmed facts go into structured data — no placeholder address, phone or logo
+// until those are verified (see /about and the Phase 2 missing-assets list).
+const organizationSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'Organization',
+	name: 'SANAND SemiConnect Trading',
+	description: 'Engineering solutions provider supplying semiconductor consumables, process materials, equipment and technical engineering support.',
+	url: Astro.site ? new URL(withBase('/'), Astro.site).toString() : undefined,
+};
 ---
 
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="description" content={description} />
 		<meta name="generator" content={Astro.generator} />
-		<title>{title} | SANAND</title>
+		<Seo title={title} description={description} noindex={noindex} />
+		<script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
 	</head>
 	<body>
 		<Header />
-		<main class="container">
+		<main>
 			<slot />
 		</main>
 		<Footer />
+		<FloatingCta />
 	</body>
 </html>

@@ -1,0 +1,63 @@
+---
+interface Props {
+	href: string;
+	name: string;
+	country: string;
+}
+
+const { href, name, country } = Astro.props;
+---
+
+<a href={href} class="partner-card">
+	<div class="logo-slot">LOGO</div>
+	<div>
+		<h3>{name}</h3>
+		<p class="country">{country}</p>
+	</div>
+</a>
+
+<style>
+	.partner-card {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		padding: 1.25rem 1.5rem;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		background: var(--color-bg);
+		text-decoration: none;
+		color: inherit;
+		transition: border-color 0.15s ease, box-shadow 0.15s ease;
+	}
+
+	.partner-card:hover {
+		border-color: var(--color-primary);
+		box-shadow: var(--shadow-sm);
+	}
+
+	.logo-slot {
+		flex: none;
+		width: 52px;
+		height: 52px;
+		border: 1px dashed var(--color-border);
+		border-radius: 8px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-family: var(--font-mono);
+		font-size: 0.6rem;
+		color: var(--color-text-muted);
+		background: var(--color-surface);
+	}
+
+	.partner-card h3 {
+		margin: 0 0 0.15rem;
+		font-size: 1rem;
+	}
+
+	.country {
+		margin: 0;
+		font-size: 0.85rem;
+		color: var(--color-text-muted);
+	}
+</style>

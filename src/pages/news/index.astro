@@ -1,0 +1,98 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import NewsCard from '../../components/NewsCard.astro';
+import { withBase } from '../../lib/paths';
+
+const articles = (await getCollection('news')).sort(
+	(a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+);
+
+const futureTopics = [
+	'Semiconductor Manufacturing',
+	'Wafer Dicing',
+	'Package Saw',
+	'Wire Bond',
+	'Materials Engineering',
+	'Cleaning Processes',
+	'Equipment Technology',
+	'Industry Trends',
+	'Technical Tips',
+];
+---
+
+<BaseLayout title="News & Insights" description="SANAND SemiConnect Trading's semiconductor engineering knowledge center — technical articles on manufacturing processes and materials.">
+	<section class="page-hero">
+		<div class="container">
+			<p class="eyebrow">News & Insights</p>
+			<h1>Semiconductor Engineering Knowledge Center</h1>
+			<p class="lede">Technical articles on process engineering, materials and equipment — in development.</p>
+		</div>
+	</section>
+
+	<section>
+		<div class="container">
+			<SectionHeading title="Articles" />
+			{
+				articles.length > 0 ? (
+					<div class="card-grid">
+						{articles.map((a) => (
+							<NewsCard
+								href={withBase(`/news/${a.id}`)}
+								title={a.data.title}
+								summary={a.data.summary}
+								date={a.data.publishDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+							/>
+						))}
+					</div>
+				) : (
+					<div class="empty-state">
+						<p>No articles published yet. Planned topics include:</p>
+						<ul class="topic-list">
+							{futureTopics.map((t) => <li>{t}</li>)}
+						</ul>
+					</div>
+				)
+			}
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.page-hero {
+		padding-block: 4rem 3rem;
+		background: linear-gradient(180deg, var(--color-surface), var(--color-bg));
+	}
+
+	.card-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+		gap: 1.25rem;
+	}
+
+	.empty-state {
+		border: 1px dashed var(--color-border);
+		border-radius: var(--radius);
+		padding: 2rem;
+		max-width: 42rem;
+	}
+
+	.topic-list {
+		list-style: none;
+		margin: 1rem 0 0;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	.topic-list li {
+		padding: 0.4rem 0.9rem;
+		border: 1px solid var(--color-border);
+		border-radius: 100px;
+		font-size: 0.8rem;
+		font-weight: 600;
+		color: var(--color-text-muted);
+	}
+</style>

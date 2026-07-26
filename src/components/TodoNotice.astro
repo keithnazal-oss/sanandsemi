@@ -1,0 +1,43 @@
+---
+// Wraps placeholder copy that still needs replacing with verified company content.
+// Never remove this without replacing the content it wraps with confirmed source material.
+interface Props {
+	label?: string;
+}
+
+const { label = 'TODO: Replace with final company content.' } = Astro.props;
+---
+
+<div class="todo-notice">
+	<p class="todo-label">{label}</p>
+	<div class="todo-body">
+		<slot />
+	</div>
+</div>
+
+<style>
+	.todo-notice {
+		border: 1px dashed var(--color-flag-border);
+		background: var(--color-flag-bg);
+		border-radius: var(--radius);
+		padding: 1rem 1.25rem;
+	}
+
+	.todo-label {
+		font-family: var(--font-mono);
+		font-size: 0.7rem;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+		color: var(--color-flag);
+		font-weight: 700;
+		margin: 0 0 0.5rem;
+	}
+
+	.todo-body {
+		color: var(--color-text);
+	}
+
+	.todo-body :global(p:last-child) {
+		margin-bottom: 0;
+	}
+</style>

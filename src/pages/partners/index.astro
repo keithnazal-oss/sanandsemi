@@ -1,0 +1,48 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import PartnerCard from '../../components/PartnerCard.astro';
+import { withBase } from '../../lib/paths';
+
+const partners = (await getCollection('partners')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="Technology Partners" description="SANAND's curated supplier network — AMC, Aquachem, DST, GTA Electronics and ZZSM — across Korea, Taiwan and China.">
+	<section class="page-hero">
+		<div class="container">
+			<p class="eyebrow">Technology Partners</p>
+			<h1>A Curated Supplier Network</h1>
+			<p class="lede">
+				Five manufacturing partners across Korea, Taiwan and China, each verified from their
+				own technical literature — not a reseller catalog.
+			</p>
+		</div>
+	</section>
+
+	<section>
+		<div class="container">
+			<SectionHeading title="All Partners" />
+			<div class="partner-grid">
+				{
+					partners.map((p) => (
+						<PartnerCard href={withBase(`/partners/${p.id}`)} name={p.data.name} country={p.data.country} />
+					))
+				}
+			</div>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.page-hero {
+		padding-block: 4rem 3rem;
+		background: linear-gradient(180deg, var(--color-surface), var(--color-bg));
+	}
+
+	.partner-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+		gap: 1rem;
+	}
+</style>

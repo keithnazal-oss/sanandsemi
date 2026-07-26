@@ -1,0 +1,173 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import TodoNotice from '../components/TodoNotice.astro';
+---
+
+<BaseLayout title="Contact" description="Contact SANAND SemiConnect Trading for technical support, sourcing inquiries and quotes.">
+	<section class="page-hero">
+		<div class="container">
+			<p class="eyebrow">Contact</p>
+			<h1>Let&rsquo;s Engineer Your Next Material Solution</h1>
+			<p class="lede">Reach out for technical support, sourcing questions or a quote.</p>
+		</div>
+	</section>
+
+	<section>
+		<div class="container contact-grid">
+			<div class="contact-details">
+				<SectionHeading title="Get in Touch" />
+
+				<TodoNotice label="TODO: Replace with final company content.">
+					<p>
+						Live contact details are not yet confirmed. SANAND's own company presentation lists
+						these fields as placeholders (<code>[www.your-domain.com]</code>,
+						<code>[sales@your-domain.com]</code>, phone blank) pending finalization.
+					</p>
+				</TodoNotice>
+
+				<dl class="detail-list">
+					<div>
+						<dt>Email</dt>
+						<dd class="pending">Pending confirmation</dd>
+					</div>
+					<div>
+						<dt>Phone</dt>
+						<dd class="pending">Pending confirmation</dd>
+					</div>
+					<div>
+						<dt>Location</dt>
+						<dd class="pending">Philippines &mdash; address pending confirmation</dd>
+					</div>
+					<div>
+						<dt>LinkedIn</dt>
+						<dd class="pending">/company/sanand-semiconnect &mdash; unconfirmed, appears in internal deck only</dd>
+					</div>
+				</dl>
+
+				<div class="map-placeholder">
+					<span>Google Maps &mdash; pending confirmed address</span>
+				</div>
+			</div>
+
+			<div class="contact-form-wrap">
+				<SectionHeading title="Send an Inquiry" />
+				<TodoNotice label="TODO: Replace with final company content.">
+					<p>Form submission isn't connected to a backend yet &mdash; this is a static site. Wire this up to a form service or serverless endpoint once a destination inbox is confirmed.</p>
+				</TodoNotice>
+				<form class="contact-form">
+					<label>
+						Name
+						<input type="text" name="name" required />
+					</label>
+					<label>
+						Company
+						<input type="text" name="company" />
+					</label>
+					<label>
+						Email
+						<input type="email" name="email" required />
+					</label>
+					<label>
+						Message
+						<textarea name="message" rows="5" required></textarea>
+					</label>
+					<button type="submit" class="btn btn-primary btn-md" disabled>Send Inquiry</button>
+				</form>
+			</div>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.page-hero {
+		padding-block: 4rem 3rem;
+		background: linear-gradient(180deg, var(--color-surface), var(--color-bg));
+	}
+
+	.contact-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 3rem;
+		align-items: start;
+	}
+
+	@media (max-width: 820px) {
+		.contact-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	.detail-list {
+		margin: 1.5rem 0;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	.detail-list dt {
+		font-family: var(--font-mono);
+		font-size: 0.7rem;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+		color: var(--color-text-muted);
+		margin-bottom: 0.2rem;
+	}
+
+	.detail-list dd {
+		margin: 0;
+	}
+
+	.pending {
+		color: var(--color-flag);
+		font-style: italic;
+	}
+
+	.map-placeholder {
+		height: 200px;
+		border: 1px dashed var(--color-border);
+		border-radius: var(--radius);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: var(--color-surface);
+		color: var(--color-text-muted);
+		font-family: var(--font-mono);
+		font-size: 0.8rem;
+		text-align: center;
+		padding: 1rem;
+	}
+
+	.contact-form {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		margin-top: 1.25rem;
+	}
+
+	.contact-form label {
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+		font-size: 0.85rem;
+		font-weight: 600;
+		color: var(--color-text-muted);
+	}
+
+	.contact-form input,
+	.contact-form textarea {
+		font: inherit;
+		padding: 0.65rem 0.75rem;
+		border: 1px solid var(--color-border);
+		border-radius: 8px;
+		color: var(--color-text);
+		background: var(--color-bg);
+	}
+
+	.contact-form button {
+		align-self: flex-start;
+		border: none;
+		cursor: not-allowed;
+		opacity: 0.6;
+	}
+</style>

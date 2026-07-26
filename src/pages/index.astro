@@ -1,8 +1,241 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import SolutionCard from '../components/SolutionCard.astro';
+import PartnerCard from '../components/PartnerCard.astro';
+import { withBase } from '../lib/paths';
+
+const solutions = (await getCollection('solutions')).sort((a, b) => a.data.order - b.data.order);
+const partners = (await getCollection('partners')).sort((a, b) => a.data.order - b.data.order);
+
+const industries = ['Semiconductor Assembly', 'OSAT', 'Wafer Processing', 'Electronics Manufacturing', 'Automotive Electronics'];
+
+const whySanand = [
+	{ title: 'Engineering Background', detail: 'Founded and run by semiconductor process engineers.' },
+	{ title: 'Industry Experience', detail: 'Deep front- and back-end process knowledge.' },
+	{ title: 'Supplier Network', detail: 'Curated partners across Korea, Taiwan & China.' },
+	{ title: 'Technical Understanding', detail: 'We speak your process language, not just SKUs.' },
+	{ title: 'Competitive Pricing', detail: 'Direct-manufacturer sourcing and cost benchmarking.' },
+	{ title: 'Fast Response', detail: 'Quick quotes, samples and application feedback.' },
+	{ title: 'Reliable Supply Chain', detail: 'Managed lead times and multi-source resilience.' },
+	{ title: 'Customer-Centric Support', detail: 'Long-term partnership over one-off transactions.' },
+];
 ---
 
-<BaseLayout title="Home">
-	<h1>SANAND</h1>
-	<p>Corporate website — content coming soon.</p>
+<BaseLayout title="SANAND SemiConnect Trading" description="Supplying semiconductor consumables, process materials, equipment, spare parts, and technical engineering support for semiconductor manufacturing throughout the Philippines.">
+	<section class="hero">
+		<div class="container hero-inner">
+			<p class="eyebrow">Semiconductor Engineering Solutions</p>
+			<h1>Engineering Solutions for Semiconductor Manufacturing</h1>
+			<p class="lede">
+				Supplying semiconductor consumables, process materials, equipment, spare parts, and
+				technical engineering support for semiconductor manufacturing throughout the
+				Philippines.
+			</p>
+			<div class="hero-actions">
+				<Button href={withBase('/request-a-quote')} size="lg">Request a Quote</Button>
+				<Button href={withBase('/solutions')} size="lg" variant="secondary">Explore Solutions</Button>
+			</div>
+		</div>
+	</section>
+
+	<section class="section-alt">
+		<div class="container">
+			<p class="eyebrow center">Industries We Support</p>
+			<ul class="industries-list">
+				{industries.map((i) => <li>{i}</li>)}
+			</ul>
+		</div>
+	</section>
+
+	<section>
+		<div class="container">
+			<SectionHeading kicker="Process Solutions" title="Featured Solutions">
+				<p class="lede">Organized by semiconductor manufacturing process, not by supplier.</p>
+			</SectionHeading>
+			<div class="card-grid">
+				{
+					solutions.map((s) => (
+						<SolutionCard href={withBase(`/solutions/${s.id}`)} title={s.data.title} summary={s.data.summary} />
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="section-alt">
+		<div class="container">
+			<SectionHeading kicker="Our Network" title="Technology Partners">
+				<p class="lede">Curated suppliers across Korea, Taiwan and China.</p>
+			</SectionHeading>
+			<div class="partner-grid">
+				{
+					partners.map((p) => (
+						<PartnerCard href={withBase(`/partners/${p.id}`)} name={p.data.name} country={p.data.country} />
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<div class="container">
+			<SectionHeading kicker="Why SANAND" title="More Than a Reseller">
+				<p class="lede">
+					SANAND pairs every supply relationship with hands-on technical support — helping
+					engineering and purchasing teams qualify, optimise and source the right materials.
+				</p>
+			</SectionHeading>
+			<div class="why-grid">
+				{
+					whySanand.map((item) => (
+						<div class="why-item">
+							<h3>{item.title}</h3>
+							<p>{item.detail}</p>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="section-alt">
+		<div class="container">
+			<SectionHeading kicker="Insights" title="Latest News & Insights" />
+			<div class="news-empty">
+				<p>
+					SANAND's semiconductor engineering knowledge center is in development. Technical
+					articles on dicing, wire bond, cleaning processes and equipment technology will appear
+					here.
+				</p>
+				<a href={withBase('/news')}>Visit News & Insights &rarr;</a>
+			</div>
+		</div>
+	</section>
+
+	<section class="cta-band">
+		<div class="container cta-inner">
+			<div>
+				<h2>Let&rsquo;s engineer your next material solution.</h2>
+				<p class="lede">Tell us what you need — we&rsquo;ll respond with technical input, not just a price sheet.</p>
+			</div>
+			<Button href={withBase('/request-a-quote')} size="lg">Request a Quote</Button>
+		</div>
+	</section>
 </BaseLayout>
+
+<style>
+	.hero {
+		padding-block: 5rem 4rem;
+		background: linear-gradient(180deg, var(--color-surface), var(--color-bg));
+	}
+
+	.hero-inner {
+		max-width: 46rem;
+	}
+
+	.hero h1 {
+		margin-top: 0.5rem;
+	}
+
+	.hero-actions {
+		display: flex;
+		gap: 0.85rem;
+		flex-wrap: wrap;
+		margin-top: 1.75rem;
+	}
+
+	.eyebrow.center {
+		text-align: center;
+	}
+
+	.industries-list {
+		list-style: none;
+		margin: 1.25rem 0 0;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem 1rem;
+		justify-content: center;
+	}
+
+	.industries-list li {
+		padding: 0.5rem 1.1rem;
+		border: 1px solid var(--color-border);
+		border-radius: 100px;
+		font-size: 0.85rem;
+		font-weight: 600;
+		background: var(--color-bg);
+	}
+
+	.card-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+		gap: 1.25rem;
+	}
+
+	.partner-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+		gap: 1rem;
+	}
+
+	.why-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+		gap: 1.5rem 2rem;
+	}
+
+	.why-item h3 {
+		font-size: 1rem;
+		margin-bottom: 0.35rem;
+	}
+
+	.why-item p {
+		margin: 0;
+		font-size: 0.9rem;
+		color: var(--color-text-muted);
+	}
+
+	.news-empty {
+		border: 1px dashed var(--color-border);
+		border-radius: var(--radius);
+		padding: 2rem;
+		text-align: center;
+		max-width: 42rem;
+		margin-inline: auto;
+	}
+
+	.news-empty a {
+		display: inline-block;
+		margin-top: 0.75rem;
+		font-weight: 700;
+		color: var(--color-primary);
+		text-decoration: none;
+	}
+
+	.cta-band {
+		background: var(--color-ink);
+		color: #fff;
+	}
+
+	.cta-inner {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1.5rem;
+	}
+
+	.cta-band h2 {
+		color: #fff;
+		margin-bottom: 0.35rem;
+	}
+
+	.cta-band .lede {
+		color: rgba(255, 255, 255, 0.75);
+		margin: 0;
+	}
+</style>

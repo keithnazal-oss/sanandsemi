@@ -1,0 +1,195 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import TodoNotice from '../components/TodoNotice.astro';
+
+const engineeringServices = [
+	{ title: 'Technical Product Recommendation', detail: 'Matching materials and consumables to your process, tooling and yield targets.' },
+	{ title: 'Alternative Material Qualification', detail: 'Identifying and validating drop-in alternatives to reduce risk and single-source exposure.' },
+	{ title: 'Cost Reduction Opportunities', detail: 'Benchmarking consumable spend and proposing qualified lower-cost options.' },
+	{ title: 'Supplier Coordination', detail: 'Managing samples, lead times and logistics across our global partner network.' },
+	{ title: 'Technical Consultation', detail: 'Application engineering support for dicing, grinding, bonding and molding steps.' },
+	{ title: 'Engineering Support', detail: 'On-site and remote troubleshooting for defects, chipping and process drift.' },
+];
+
+const advantages = [
+	'Founded and run by semiconductor process engineers.',
+	'Deep front- and back-end process knowledge.',
+	'Curated partners across Korea, Taiwan & China.',
+	'We speak your process language, not just SKUs.',
+	'Direct-manufacturer sourcing and cost benchmarking.',
+	'Quick quotes, samples and application feedback.',
+	'Managed lead times and multi-source resilience.',
+	'Long-term partnership over one-off transactions.',
+];
+---
+
+<BaseLayout title="About SANAND" description="SANAND SemiConnect Trading is a semiconductor engineering solutions provider — engineering background, industry experience and a curated supplier network across Korea, Taiwan and China.">
+	<section class="page-hero">
+		<div class="container">
+			<p class="eyebrow">About SANAND</p>
+			<h1>More Than a Reseller</h1>
+			<p class="lede">
+				SANAND SemiConnect Trading pairs every supply relationship with hands-on technical
+				support — helping engineering and purchasing teams qualify, optimise and source the
+				right materials.
+			</p>
+		</div>
+	</section>
+
+	<section>
+		<div class="container narrow">
+			<SectionHeading title="Company Overview" />
+			<TodoNotice>
+				<p>
+					SANAND's legal company name, founding year, headquarters address and registration
+					details are not yet confirmed. This section will describe the company's history and
+					founding story once that information is provided by leadership.
+				</p>
+			</TodoNotice>
+		</div>
+	</section>
+
+	<section class="section-alt">
+		<div class="container narrow two-col">
+			<div>
+				<SectionHeading title="Mission" />
+				<TodoNotice>
+					<p>
+						SANAND exists to give semiconductor manufacturers in the Philippines direct access
+						to qualified process materials and equipment support, backed by engineers who
+						understand the process — not just the part number.
+					</p>
+				</TodoNotice>
+			</div>
+			<div>
+				<SectionHeading title="Vision" />
+				<TodoNotice>
+					<p>
+						To be the semiconductor industry's most trusted regional engineering partner —
+						known for technical depth, responsiveness and supply reliability.
+					</p>
+				</TodoNotice>
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<div class="container narrow">
+			<SectionHeading title="Core Values" />
+			<TodoNotice>
+				<p>
+					Draft values pending leadership confirmation: Engineering Integrity — recommend what
+					the process actually needs. Responsiveness — fast, honest answers over sales pressure.
+					Reliability — supply continuity customers can plan around. Partnership — long-term
+					relationships over one-off transactions.
+				</p>
+			</TodoNotice>
+		</div>
+	</section>
+
+	<section class="section-alt">
+		<div class="container narrow">
+			<SectionHeading title="Business Philosophy" />
+			<TodoNotice>
+				<p>
+					SANAND positions itself as an engineering-led supplier rather than a transactional
+					reseller — every sourcing conversation is expected to start with a process problem,
+					not a product catalog.
+				</p>
+			</TodoNotice>
+		</div>
+	</section>
+
+	<section>
+		<div class="container narrow">
+			<SectionHeading kicker="Confirmed" title="Our Engineering Approach" />
+			<p class="lede">
+				This is SANAND's own documented engineering-services scope — six ways the team works
+				alongside customers, not just six product lines.
+			</p>
+			<div class="services-grid">
+				{
+					engineeringServices.map((s) => (
+						<div class="service-item">
+							<h3>{s.title}</h3>
+							<p>{s.detail}</p>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="section-alt">
+		<div class="container narrow">
+			<SectionHeading kicker="Confirmed" title="Why Customers Choose SANAND" />
+			<ul class="advantage-list">
+				{advantages.map((a) => <li>{a}</li>)}
+			</ul>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.page-hero {
+		padding-block: 4rem 3rem;
+		background: linear-gradient(180deg, var(--color-surface), var(--color-bg));
+	}
+
+	.narrow {
+		max-width: 56rem;
+	}
+
+	.two-col {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 2.5rem;
+	}
+
+	@media (max-width: 720px) {
+		.two-col {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	.services-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+		gap: 1.5rem;
+		margin-top: 1.5rem;
+	}
+
+	.service-item {
+		padding: 1.25rem;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+	}
+
+	.service-item h3 {
+		font-size: 1rem;
+		margin-bottom: 0.35rem;
+	}
+
+	.service-item p {
+		margin: 0;
+		font-size: 0.9rem;
+		color: var(--color-text-muted);
+	}
+
+	.advantage-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+		gap: 0.75rem 1.5rem;
+	}
+
+	.advantage-list li {
+		padding: 0.85rem 1rem;
+		border-left: 3px solid var(--color-primary);
+		background: var(--color-bg);
+		font-size: 0.92rem;
+	}
+</style>

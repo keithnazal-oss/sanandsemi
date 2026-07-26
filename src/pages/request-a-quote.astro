@@ -1,0 +1,122 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import TodoNotice from '../components/TodoNotice.astro';
+
+const solutions = (await getCollection('solutions')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="Request a Quote" description="Request a quote from SANAND SemiConnect Trading for semiconductor process materials, equipment or engineering support.">
+	<section class="page-hero">
+		<div class="container narrow">
+			<p class="eyebrow">Request a Quote</p>
+			<h1>Tell Us What You Need</h1>
+			<p class="lede">
+				Fast RFQ response is one of SANAND's core commitments. Send your requirement and
+				we'll follow up with technical input, not just a price sheet.
+			</p>
+		</div>
+	</section>
+
+	<section>
+		<div class="container narrow">
+			<TodoNotice label="TODO: Replace with final company content.">
+				<p>Form submission isn't connected to a backend yet &mdash; this is a static site. Wire this up to a form service or serverless endpoint, and route to the confirmed sales inbox once available.</p>
+			</TodoNotice>
+
+			<form class="rfq-form">
+				<div class="form-row">
+					<label>
+						Name
+						<input type="text" name="name" required />
+					</label>
+					<label>
+						Company
+						<input type="text" name="company" required />
+					</label>
+				</div>
+				<div class="form-row">
+					<label>
+						Email
+						<input type="email" name="email" required />
+					</label>
+					<label>
+						Phone
+						<input type="tel" name="phone" />
+					</label>
+				</div>
+				<label>
+					Solution of Interest
+					<select name="solution">
+						<option value="">Select a solution</option>
+						{solutions.map((s) => <option value={s.id}>{s.data.title}</option>)}
+						<option value="other">Other / Not sure</option>
+					</select>
+				</label>
+				<label>
+					Requirement Details
+					<textarea name="details" rows="6" placeholder="Material, quantity, target application, timeline..." required></textarea>
+				</label>
+				<button type="submit" class="btn btn-primary btn-lg" disabled>Submit Request</button>
+			</form>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.page-hero {
+		padding-block: 4rem 2.5rem;
+		background: linear-gradient(180deg, var(--color-surface), var(--color-bg));
+	}
+
+	.narrow {
+		max-width: 44rem;
+	}
+
+	.rfq-form {
+		display: flex;
+		flex-direction: column;
+		gap: 1.1rem;
+		margin-top: 1.5rem;
+	}
+
+	.form-row {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1.1rem;
+	}
+
+	@media (max-width: 560px) {
+		.form-row {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	.rfq-form label {
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+		font-size: 0.85rem;
+		font-weight: 600;
+		color: var(--color-text-muted);
+	}
+
+	.rfq-form input,
+	.rfq-form select,
+	.rfq-form textarea {
+		font: inherit;
+		padding: 0.65rem 0.75rem;
+		border: 1px solid var(--color-border);
+		border-radius: 8px;
+		color: var(--color-text);
+		background: var(--color-bg);
+	}
+
+	.rfq-form button {
+		align-self: flex-start;
+		border: none;
+		cursor: not-allowed;
+		opacity: 0.6;
+	}
+</style>

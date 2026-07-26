@@ -1,0 +1,271 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import TodoNotice from '../../components/TodoNotice.astro';
+import Button from '../../components/Button.astro';
+import { withBase } from '../../lib/paths';
+
+export async function getStaticPaths() {
+	const partners = await getCollection('partners');
+	return partners.map((entry) => ({
+		params: { slug: entry.id },
+		props: { entry },
+	}));
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+
+const allSolutions = await getCollection('solutions');
+const offeredSolutions = allSolutions.filter((s) => data.solutionsOffered.includes(s.id));
+---
+
+<BaseLayout title={data.name} description={data.overview}>
+	<section class="page-hero">
+		<div class="container hero-inner">
+			<div class="logo-slot">LOGO</div>
+			<div>
+				<p class="eyebrow"><a href={withBase('/partners')}>Technology Partners</a> / {data.country}</p>
+				<h1>{data.name}</h1>
+				<dl class="meta-row">
+					{data.founded && (<><dt>Founded</dt><dd>{data.founded}</dd></>)}
+					{data.headquarters && (<><dt>HQ</dt><dd>{data.headquarters}</dd></>)}
+					{data.website && (<><dt>Web</dt><dd>{data.website}</dd></>)}
+				</dl>
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<div class="container narrow">
+			<SectionHeading title="Company Overview" />
+			<p>{data.overview}</p>
+			{
+				data.certifications.length > 0 && (
+					<ul class="tag-list">
+						{data.certifications.map((c: string) => <li>{c}</li>)}
+					</ul>
+				)
+			}
+		</div>
+	</section>
+
+	<section class="section-alt">
+		<div class="container narrow two-col">
+			<div>
+				<SectionHeading title="Core Technologies" />
+				<ul class="plain-list">
+					{data.coreTechnologies.map((t: string) => <li>{t}</li>)}
+				</ul>
+			</div>
+			<div>
+				<SectionHeading title="Manufacturing Expertise" />
+				{
+					data.manufacturingExpertiseStatus === 'placeholder' ? (
+						<TodoNotice><p>{data.manufacturingExpertise}</p></TodoNotice>
+					) : (
+						<p>{data.manufacturingExpertise}</p>
+					)
+				}
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<div class="container narrow">
+			<SectionHeading title="Solutions Offered" />
+			{
+				offeredSolutions.length > 0 ? (
+					<ul class="tag-list linked">
+						{offeredSolutions.map((s) => (
+							<li><a href={withBase(`/solutions/${s.id}`)}>{s.data.title}</a></li>
+						))}
+					</ul>
+				) : (
+					<p class="muted">No solution mapping confirmed yet.</p>
+				)
+			}
+		</div>
+	</section>
+
+	<section class="section-alt">
+		<div class="container narrow">
+			<SectionHeading title="Product Portfolio" />
+			<ul class="plain-list grid">
+				{data.productPortfolio.map((p: string) => <li>{p}</li>)}
+			</ul>
+		</div>
+	</section>
+
+	<section>
+		<div class="container narrow">
+			<SectionHeading title="Industries Served" />
+			{
+				data.industriesServedStatus === 'placeholder' ? (
+					<TodoNotice><p>{data.industriesServed}</p></TodoNotice>
+				) : (
+					<p>{data.industriesServed}</p>
+				)
+			}
+		</div>
+	</section>
+
+	<section class="cta-band">
+		<div class="container cta-inner">
+			<div>
+				<h2>Sourcing from {data.name}?</h2>
+				<p class="lede">Request a quote and we'll coordinate samples, lead times and technical support.</p>
+			</div>
+			<Button href={withBase('/request-a-quote')} size="lg">Request a Quote</Button>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.page-hero {
+		padding-block: 3rem 2.5rem;
+		background: linear-gradient(180deg, var(--color-surface), var(--color-bg));
+	}
+
+	.hero-inner {
+		display: flex;
+		align-items: center;
+		gap: 1.5rem;
+	}
+
+	.logo-slot {
+		flex: none;
+		width: 84px;
+		height: 84px;
+		border: 1px dashed var(--color-border);
+		border-radius: 12px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-family: var(--font-mono);
+		font-size: 0.7rem;
+		color: var(--color-text-muted);
+		background: var(--color-bg);
+	}
+
+	.page-hero .eyebrow a {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.meta-row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem 1.5rem;
+		margin: 0.75rem 0 0;
+		font-size: 0.85rem;
+	}
+
+	.meta-row dt {
+		display: inline;
+		font-weight: 700;
+		color: var(--color-text-muted);
+		margin-right: 0.3rem;
+	}
+
+	.meta-row dd {
+		display: inline;
+		margin: 0 1.25rem 0 0;
+	}
+
+	.narrow {
+		max-width: 56rem;
+	}
+
+	.two-col {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 2.5rem;
+	}
+
+	@media (max-width: 720px) {
+		.two-col {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	.tag-list {
+		list-style: none;
+		margin: 1rem 0 0;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	.tag-list li {
+		padding: 0.35rem 0.85rem;
+		border: 1px solid var(--color-border);
+		border-radius: 100px;
+		font-size: 0.78rem;
+		font-weight: 600;
+		background: var(--color-bg);
+	}
+
+	.tag-list.linked a {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.tag-list.linked li:hover {
+		border-color: var(--color-primary);
+	}
+
+	.tag-list.linked li:hover a {
+		color: var(--color-primary);
+	}
+
+	.plain-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.6rem;
+		font-size: 0.92rem;
+	}
+
+	.plain-list li {
+		padding-left: 1rem;
+		border-left: 3px solid var(--color-primary);
+	}
+
+	.plain-list.grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+		gap: 0.6rem 1.5rem;
+	}
+
+	.muted {
+		color: var(--color-text-muted);
+	}
+
+	.cta-band {
+		background: var(--color-ink);
+		color: #fff;
+	}
+
+	.cta-inner {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1.5rem;
+	}
+
+	.cta-band h2 {
+		color: #fff;
+		margin-bottom: 0.35rem;
+	}
+
+	.cta-band .lede {
+		color: rgba(255, 255, 255, 0.75);
+		margin: 0;
+	}
+</style>

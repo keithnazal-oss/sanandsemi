@@ -1,57 +1,220 @@
 ---
+import Button from './Button.astro';
+import { withBase, stripBase } from '../lib/paths';
+
 const navItems = [
 	{ label: 'Home', href: '/' },
-	{ label: 'About', href: '/about' },
+	{ label: 'About SANAND', href: '/about' },
+	{ label: 'Solutions', href: '/solutions' },
+	{ label: 'Technology Partners', href: '/partners' },
+	{ label: 'Resources', href: '/resources' },
+	{ label: 'News & Insights', href: '/news' },
 	{ label: 'Contact', href: '/contact' },
 ];
+
+// Compare against the raw (base-free) path — Astro.url.pathname includes `base`.
+const currentPath = stripBase(Astro.url.pathname);
+const isActive = (href: string) => (href === '/' ? currentPath === '/' : currentPath.startsWith(href));
 ---
 
 <header class="site-header">
 	<div class="container header-inner">
-		<a href="/" class="brand">SANAND</a>
-		<nav>
+		<a href={withBase('/')} class="brand">
+			SANAND<span class="brand-sub">SemiConnect Trading</span>
+		</a>
+
+		<nav class="primary-nav" aria-label="Primary">
 			<ul>
-				{navItems.map((item) => (
-					<li><a href={item.href}>{item.label}</a></li>
-				))}
+				{
+					navItems.map((item) => (
+						<li>
+							<a href={withBase(item.href)} aria-current={isActive(item.href) ? 'page' : undefined}>
+								{item.label}
+							</a>
+						</li>
+					))
+				}
 			</ul>
 		</nav>
+
+		<div class="header-cta">
+			<Button href={withBase('/request-a-quote')} size="md">Request a Quote</Button>
+		</div>
+
+		<label for="nav-toggle" class="nav-toggle" aria-label="Toggle menu">
+			<span></span>
+		</label>
 	</div>
+
+	<input type="checkbox" id="nav-toggle" class="nav-toggle-input" />
+	<nav class="mobile-nav" aria-label="Mobile">
+		<ul>
+			{
+				navItems.map((item) => (
+					<li>
+						<a href={withBase(item.href)}>{item.label}</a>
+					</li>
+				))
+			}
+			<li><a href={withBase('/request-a-quote')} class="mobile-cta">Request a Quote</a></li>
+		</ul>
+	</nav>
 </header>
 
 <style>
 	.site-header {
-		border-bottom: 1px solid #e5e5e5;
+		position: sticky;
+		top: 0;
+		z-index: 40;
+		background: var(--color-bg);
+		border-bottom: 1px solid var(--color-border);
 	}
 
 	.header-inner {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding-block: 1rem;
+		gap: 1.5rem;
+		padding-block: 0.9rem;
 	}
 
 	.brand {
-		font-weight: 700;
-		font-size: 1.25rem;
+		display: flex;
+		flex-direction: column;
+		line-height: 1.1;
 		text-decoration: none;
-		color: var(--color-text);
+		color: var(--color-ink);
+		font-weight: 800;
+		font-size: 1.25rem;
+		letter-spacing: 0.01em;
+		flex: none;
 	}
 
-	nav ul {
+	.brand-sub {
+		font-family: var(--font-mono);
+		font-size: 0.6rem;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--color-text-muted);
+		font-weight: 600;
+	}
+
+	.primary-nav {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.primary-nav ul {
 		display: flex;
-		gap: 1.5rem;
+		flex-wrap: wrap;
+		gap: 0.25rem 1.35rem;
 		list-style: none;
 		margin: 0;
 		padding: 0;
+		justify-content: center;
 	}
 
-	nav a {
+	.primary-nav a {
 		text-decoration: none;
 		color: var(--color-text);
+		font-size: 0.9rem;
+		font-weight: 600;
+		padding: 0.4rem 0;
+		border-bottom: 2px solid transparent;
 	}
 
-	nav a:hover {
-		color: var(--color-accent);
+	.primary-nav a:hover,
+	.primary-nav a[aria-current='page'] {
+		color: var(--color-primary);
+		border-bottom-color: var(--color-primary);
+	}
+
+	.header-cta {
+		flex: none;
+	}
+
+	.nav-toggle-input {
+		display: none;
+	}
+
+	.nav-toggle {
+		display: none;
+		flex: none;
+		width: 34px;
+		height: 34px;
+		border-radius: 6px;
+		border: 1px solid var(--color-border);
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+	}
+
+	.nav-toggle span,
+	.nav-toggle span::before,
+	.nav-toggle span::after {
+		content: '';
+		display: block;
+		width: 18px;
+		height: 2px;
+		background: var(--color-ink);
+		position: relative;
+	}
+
+	.nav-toggle span::before {
+		position: absolute;
+		top: -6px;
+	}
+
+	.nav-toggle span::after {
+		position: absolute;
+		top: 6px;
+	}
+
+	.mobile-nav {
+		display: none;
+	}
+
+	@media (max-width: 860px) {
+		.primary-nav,
+		.header-cta {
+			display: none;
+		}
+
+		.nav-toggle {
+			display: flex;
+		}
+
+		.mobile-nav ul {
+			list-style: none;
+			margin: 0;
+			padding: 0.5rem 1.5rem 1.25rem;
+			display: flex;
+			flex-direction: column;
+			gap: 0.15rem;
+			max-height: 0;
+			overflow: hidden;
+		}
+
+		.mobile-nav a {
+			display: block;
+			padding: 0.65rem 0;
+			text-decoration: none;
+			color: var(--color-text);
+			font-weight: 600;
+			border-bottom: 1px solid var(--color-border);
+		}
+
+		.mobile-cta {
+			color: var(--color-primary) !important;
+		}
+
+		.nav-toggle-input:checked ~ .mobile-nav ul {
+			max-height: 640px;
+			padding-bottom: 1.25rem;
+		}
+
+		.mobile-nav {
+			display: block;
+		}
 	}
 </style>

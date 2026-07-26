@@ -1,0 +1,33 @@
+---
+interface Props {
+	kicker?: string;
+	title: string;
+	center?: boolean;
+}
+
+const { kicker, title, center = false } = Astro.props;
+---
+
+<div class={`section-heading ${center ? 'center' : ''}`}>
+	{kicker && <p class="eyebrow">{kicker}</p>}
+	<h2>{title}</h2>
+	<slot />
+</div>
+
+<style>
+	.section-heading {
+		margin-bottom: 2.5rem;
+	}
+
+	.section-heading.center {
+		text-align: center;
+	}
+
+	.section-heading.center h2 {
+		margin-inline: auto;
+	}
+
+	.section-heading .eyebrow {
+		margin: 0 0 0.6rem;
+	}
+</style>

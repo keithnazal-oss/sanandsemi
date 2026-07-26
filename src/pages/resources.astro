@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import TodoNotice from '../components/TodoNotice.astro';
+
+const categories = ['Datasheets', 'Catalogs', 'Flyers', 'Technical Notes', 'Application Guides', 'Certificates'];
+---
+
+<BaseLayout title="Resources" description="Technical resource center for SANAND SemiConnect Trading — datasheets, catalogs, application guides and certificates.">
+	<section class="page-hero">
+		<div class="container">
+			<p class="eyebrow">Resources</p>
+			<h1>Technical Resource Center</h1>
+			<p class="lede">Datasheets, catalogs, application guides and certificates, organized by category.</p>
+		</div>
+	</section>
+
+	<section>
+		<div class="container narrow">
+			<SectionHeading title="Categories" />
+			<div class="category-grid">
+				{categories.map((c) => <span class="category-chip">{c}</span>)}
+			</div>
+
+			<TodoNotice label="TODO: Replace with final company content.">
+				<p>
+					No documents are published here yet. The partner catalogue PDFs used as source
+					material for the Solutions and Technology Partners pages could populate this section,
+					but redistribution rights need to be confirmed with each partner before publishing
+					their literature here. SANAND's own datasheets, certificates and application notes
+					(from the empty <code>04_Datasheets</code>, <code>05_Certificates</code> and
+					<code>06_Marketing</code> Drive folders) are not yet available.
+				</p>
+			</TodoNotice>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.page-hero {
+		padding-block: 4rem 3rem;
+		background: linear-gradient(180deg, var(--color-surface), var(--color-bg));
+	}
+
+	.narrow {
+		max-width: 56rem;
+	}
+
+	.category-grid {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.6rem;
+		margin-bottom: 1.5rem;
+	}
+
+	.category-chip {
+		padding: 0.5rem 1rem;
+		border: 1px solid var(--color-border);
+		border-radius: 100px;
+		font-size: 0.85rem;
+		font-weight: 600;
+		background: var(--color-surface);
+		color: var(--color-text-muted);
+	}
+</style>

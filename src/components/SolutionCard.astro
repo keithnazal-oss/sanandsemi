@@ -1,0 +1,53 @@
+---
+interface Props {
+	href: string;
+	title: string;
+	summary: string;
+}
+
+const { href, title, summary } = Astro.props;
+---
+
+<a href={href} class="solution-card">
+	<h3>{title}</h3>
+	<p>{summary}</p>
+	<span class="link">Explore &rarr;</span>
+</a>
+
+<style>
+	.solution-card {
+		display: flex;
+		flex-direction: column;
+		gap: 0.65rem;
+		padding: 1.5rem;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		background: var(--color-bg);
+		text-decoration: none;
+		color: inherit;
+		transition: border-color 0.15s ease, box-shadow 0.15s ease;
+	}
+
+	.solution-card:hover {
+		border-color: var(--color-primary);
+		box-shadow: var(--shadow-sm);
+	}
+
+	.solution-card h3 {
+		margin: 0;
+	}
+
+	.solution-card p {
+		margin: 0;
+		color: var(--color-text-muted);
+		font-size: 0.9rem;
+	}
+
+	.link {
+		margin-top: 0.25rem;
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		font-weight: 700;
+		color: var(--color-primary);
+	}
+</style>

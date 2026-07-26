@@ -1,0 +1,243 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import TodoNotice from '../../components/TodoNotice.astro';
+import Button from '../../components/Button.astro';
+import { withBase } from '../../lib/paths';
+
+export async function getStaticPaths() {
+	const solutions = await getCollection('solutions');
+	return solutions.map((entry) => ({
+		params: { slug: entry.id },
+		props: { entry },
+	}));
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+---
+
+<BaseLayout title={data.title} description={data.summary}>
+	<section class="page-hero">
+		<div class="container">
+			<p class="eyebrow"><a href={withBase('/solutions')}>Solutions</a> / {data.title}</p>
+			<h1>{data.title}</h1>
+			<p class="lede">{data.summary}</p>
+			{
+				data.relatedProcesses.length > 0 && (
+					<ul class="tag-list">
+						{data.relatedProcesses.map((tag: string) => <li>{tag}</li>)}
+					</ul>
+				)
+			}
+		</div>
+	</section>
+
+	<section>
+		<div class="container narrow">
+			<SectionHeading title="Overview" />
+			{
+				data.overviewStatus === 'placeholder' ? (
+					<TodoNotice><p>{data.overview}</p></TodoNotice>
+				) : (
+					<p>{data.overview}</p>
+				)
+			}
+		</div>
+	</section>
+
+	<section class="section-alt">
+		<div class="container narrow">
+			<SectionHeading title="Applications" />
+			{
+				data.applicationsStatus === 'placeholder' ? (
+					<TodoNotice><p>{data.applications}</p></TodoNotice>
+				) : (
+					<p>{data.applications}</p>
+				)
+			}
+		</div>
+	</section>
+
+	<section>
+		<div class="container narrow">
+			<SectionHeading title="Engineering Challenges" />
+			{
+				data.challengesStatus === 'placeholder' ? (
+					<TodoNotice><p>{data.challenges}</p></TodoNotice>
+				) : (
+					<p>{data.challenges}</p>
+				)
+			}
+		</div>
+	</section>
+
+	{
+		(data.materials.length > 0 || data.equipment.length > 0) && (
+			<section class="section-alt">
+				<div class="container narrow">
+					<SectionHeading title="Supporting Products" />
+					{data.materials.length > 0 && (
+						<>
+							<h3 class="sub-label">Recommended Materials</h3>
+							<ul class="product-list">
+								{data.materials.map((m: { name: string; partner: string; partnerSlug: string }) => (
+									<li>
+										<span class="product-name">{m.name}</span>
+										<a href={withBase(`/partners/${m.partnerSlug}`)} class="product-partner">{m.partner}</a>
+									</li>
+								))}
+							</ul>
+						</>
+					)}
+					{data.equipment.length > 0 && (
+						<>
+							<h3 class="sub-label">Recommended Equipment</h3>
+							<ul class="product-list">
+								{data.equipment.map((e: { name: string; partner: string; partnerSlug: string }) => (
+									<li>
+										<span class="product-name">{e.name}</span>
+										<a href={withBase(`/partners/${e.partnerSlug}`)} class="product-partner">{e.partner}</a>
+									</li>
+								))}
+							</ul>
+						</>
+					)}
+				</div>
+			</section>
+		)
+	}
+
+	<section>
+		<div class="container narrow">
+			<SectionHeading title="Downloads" />
+			<TodoNotice label="TODO: Replace with final company content.">
+				<p>
+					Technical documents for this solution are pending. Redistribution rights for
+					partner catalogue PDFs need confirmation before they can be published here.
+				</p>
+			</TodoNotice>
+		</div>
+	</section>
+
+	<section class="cta-band">
+		<div class="container cta-inner">
+			<div>
+				<h2>Need this for your process?</h2>
+				<p class="lede">Send us your requirement and we'll respond with a technical recommendation.</p>
+			</div>
+			<Button href={withBase('/request-a-quote')} size="lg">Request a Quote</Button>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.page-hero {
+		padding-block: 3rem 2.5rem;
+		background: linear-gradient(180deg, var(--color-surface), var(--color-bg));
+	}
+
+	.page-hero .eyebrow a {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.page-hero .eyebrow a:hover {
+		color: var(--color-primary);
+	}
+
+	.tag-list {
+		list-style: none;
+		margin: 1.25rem 0 0;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	.tag-list li {
+		padding: 0.35rem 0.85rem;
+		border: 1px solid var(--color-border);
+		border-radius: 100px;
+		font-size: 0.78rem;
+		font-weight: 600;
+		background: var(--color-bg);
+	}
+
+	.narrow {
+		max-width: 56rem;
+	}
+
+	.sub-label {
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: var(--color-text-muted);
+		margin: 1.5rem 0 0.75rem;
+	}
+
+	.sub-label:first-child {
+		margin-top: 0;
+	}
+
+	.product-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.product-list li {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 1rem;
+		padding: 0.85rem 1rem;
+		border: 1px solid var(--color-border);
+		border-radius: 8px;
+		background: var(--color-bg);
+		flex-wrap: wrap;
+	}
+
+	.product-name {
+		font-weight: 600;
+	}
+
+	.product-partner {
+		font-size: 0.82rem;
+		color: var(--color-primary);
+		text-decoration: none;
+		font-weight: 600;
+	}
+
+	.product-partner:hover {
+		text-decoration: underline;
+	}
+
+	.cta-band {
+		background: var(--color-ink);
+		color: #fff;
+	}
+
+	.cta-inner {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1.5rem;
+	}
+
+	.cta-band h2 {
+		color: #fff;
+		margin-bottom: 0.35rem;
+	}
+
+	.cta-band .lede {
+		color: rgba(255, 255, 255, 0.75);
+		margin: 0;
+	}
+</style>

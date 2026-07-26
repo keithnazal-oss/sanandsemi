@@ -1,13 +1,35 @@
 :root {
+	/* brand — working values, pending confirmed brand guide (see /about TODO) */
 	--color-bg: #ffffff;
-	--color-text: #1a1a1a;
-	--color-accent: #0a4d8c;
-	--font-body: system-ui, sans-serif;
+	--color-surface: #f5f7fb;
+	--color-surface-2: #eef1f6;
+	--color-border: #dde3ec;
+	--color-ink: #12213c;
+	--color-primary: #12213c;
+	--color-primary-hover: #1c3766;
+	--color-text: #232a38;
+	--color-text-muted: #5b6478;
+
+	/* semantic — reserved for placeholder/TODO flags, never brand */
+	--color-flag: #b5650d;
+	--color-flag-bg: #fcf1e2;
+	--color-flag-border: #e9c388;
+
+	--font-body: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	--font-mono: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+
 	--max-width: 1200px;
+	--radius: 10px;
+	--shadow-sm: 0 1px 2px rgba(18, 33, 60, 0.06);
+	--shadow-md: 0 8px 24px -12px rgba(18, 33, 60, 0.16);
 }
 
 * {
 	box-sizing: border-box;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -15,15 +37,72 @@ body {
 	font-family: var(--font-body);
 	color: var(--color-text);
 	background: var(--color-bg);
-	line-height: 1.5;
+	line-height: 1.6;
+	-webkit-font-smoothing: antialiased;
+}
+
+img,
+svg {
+	max-width: 100%;
+	display: block;
 }
 
 a {
-	color: var(--color-accent);
+	color: inherit;
 }
 
 .container {
 	max-width: var(--max-width);
 	margin-inline: auto;
 	padding-inline: 1.5rem;
+}
+
+.eyebrow {
+	font-family: var(--font-mono);
+	font-size: 0.75rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--color-text-muted);
+}
+
+h1,
+h2,
+h3,
+h4 {
+	color: var(--color-ink);
+	font-weight: 800;
+	letter-spacing: -0.01em;
+	text-wrap: balance;
+	margin: 0 0 0.5em;
+}
+
+h1 {
+	font-size: clamp(2rem, 4vw, 3rem);
+}
+
+h2 {
+	font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+h3 {
+	font-size: 1.15rem;
+}
+
+p {
+	margin: 0 0 1em;
+	max-width: 68ch;
+}
+
+.lede {
+	color: var(--color-text-muted);
+	font-size: 1.05rem;
+	max-width: 62ch;
+}
+
+section {
+	padding-block: 4rem;
+}
+
+.section-alt {
+	background: var(--color-surface);
 }

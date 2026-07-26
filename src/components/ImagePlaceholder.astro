@@ -1,0 +1,43 @@
+---
+interface Props {
+	label?: string;
+	aspect?: string;
+}
+
+const { label = 'Photo pending', aspect = '4 / 3' } = Astro.props;
+---
+
+<div class="image-placeholder" style={`aspect-ratio: ${aspect};`}>
+	<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+		<rect x="3" y="4" width="18" height="16" rx="2" />
+		<circle cx="8.5" cy="9.5" r="1.5" />
+		<path d="M21 16l-5.5-5.5a2 2 0 0 0-2.8 0L3 20" />
+	</svg>
+	<span>{label}</span>
+</div>
+
+<style>
+	.image-placeholder {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		width: 100%;
+		border: 1px dashed var(--color-border);
+		border-radius: var(--radius);
+		background: var(--color-surface);
+		color: var(--color-text-muted);
+	}
+
+	.image-placeholder svg {
+		opacity: 0.6;
+	}
+
+	.image-placeholder span {
+		font-family: var(--font-mono);
+		font-size: 0.7rem;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+	}
+</style>

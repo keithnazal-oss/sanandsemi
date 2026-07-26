@@ -1,0 +1,48 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import SolutionCard from '../../components/SolutionCard.astro';
+import { withBase } from '../../lib/paths';
+
+const solutions = (await getCollection('solutions')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="Solutions" description="Semiconductor manufacturing solutions organized by process — wafer processing, package assembly, wire bond, package saw, cleaning, automation, process materials and engineering support.">
+	<section class="page-hero">
+		<div class="container">
+			<p class="eyebrow">Solutions</p>
+			<h1>Organized by Process, Not by Product</h1>
+			<p class="lede">
+				Every solution below explains how SANAND supports a specific semiconductor
+				manufacturing step — the materials, equipment and engineering support behind it.
+			</p>
+		</div>
+	</section>
+
+	<section>
+		<div class="container">
+			<SectionHeading title="All Solutions" />
+			<div class="card-grid">
+				{
+					solutions.map((s) => (
+						<SolutionCard href={withBase(`/solutions/${s.id}`)} title={s.data.title} summary={s.data.summary} />
+					))
+				}
+			</div>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.page-hero {
+		padding-block: 4rem 3rem;
+		background: linear-gradient(180deg, var(--color-surface), var(--color-bg));
+	}
+
+	.card-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+		gap: 1.25rem;
+	}
+</style>

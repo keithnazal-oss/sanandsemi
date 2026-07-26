@@ -1,0 +1,59 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { withBase } from '../../lib/paths';
+
+export async function getStaticPaths() {
+	const articles = await getCollection('news');
+	return articles.map((entry) => ({
+		params: { slug: entry.id },
+		props: { entry },
+	}));
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+const { Content } = await render(entry);
+---
+
+<BaseLayout title={data.title} description={data.summary}>
+	<section class="page-hero">
+		<div class="container narrow">
+			<p class="eyebrow"><a href={withBase('/news')}>News & Insights</a></p>
+			<h1>{data.title}</h1>
+			<p class="date">{data.publishDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+		</div>
+	</section>
+
+	<section>
+		<div class="container narrow article-body">
+			<Content />
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.page-hero {
+		padding-block: 3rem 2rem;
+		background: linear-gradient(180deg, var(--color-surface), var(--color-bg));
+	}
+
+	.page-hero .eyebrow a {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.narrow {
+		max-width: 42rem;
+	}
+
+	.date {
+		font-family: var(--font-mono);
+		font-size: 0.8rem;
+		color: var(--color-text-muted);
+	}
+
+	.article-body :global(p) {
+		max-width: none;
+	}
+</style>
