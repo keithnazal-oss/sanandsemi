@@ -1,0 +1,29 @@
+---
+// Elegant neutral silhouette used until a real headshot is provided.
+// Swapping in a real photo (via the `photo` prop on TeamCard) requires no layout change.
+---
+
+<div class="avatar-placeholder" role="img" aria-label="Photo pending">
+	<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+		<circle cx="12" cy="8.5" r="3.5" />
+		<path d="M4.5 20c1.6-3.6 4.4-5.5 7.5-5.5s5.9 1.9 7.5 5.5" />
+	</svg>
+</div>
+
+<style>
+	.avatar-placeholder {
+		width: 100%;
+		aspect-ratio: 1;
+		border-radius: 50%;
+		border: 1px dashed var(--color-border);
+		background: var(--color-surface);
+		color: var(--color-text-muted);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.avatar-placeholder svg {
+		opacity: 0.55;
+	}
+</style>

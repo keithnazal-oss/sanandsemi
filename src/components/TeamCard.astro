@@ -1,0 +1,126 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import AvatarPlaceholder from './AvatarPlaceholder.astro';
+
+interface Props {
+	name: string;
+	position: string;
+	summary?: string;
+	specialties?: string[];
+	photo?: ImageMetadata;
+}
+
+const { name, position, summary, specialties = [], photo } = Astro.props;
+---
+
+<article class="team-card">
+	<div class="team-photo">
+		{photo ? <Image src={photo} alt={`Photo of ${name}`} width={240} height={240} /> : <AvatarPlaceholder />}
+	</div>
+
+	<h3>{name}</h3>
+	<p class="position">{position}</p>
+
+	{summary && <p class="summary">{summary}</p>}
+
+	{
+		specialties.length > 0 && (
+			<ul class="specialties">
+				{specialties.map((s) => <li>{s}</li>)}
+			</ul>
+		)
+	}
+
+	<div class="socials">
+		<span class="social-icon" aria-label="LinkedIn — link pending" title="LinkedIn — link pending">
+			<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.22 8.24h4.56V23H.22V8.24zM8.4 8.24h4.37v2.01h.06c.61-1.15 2.1-2.36 4.32-2.36 4.62 0 5.47 3.04 5.47 7v8.11h-4.56v-7.19c0-1.72-.03-3.93-2.4-3.93-2.4 0-2.77 1.87-2.77 3.8v7.32H8.4V8.24z"/></svg>
+		</span>
+		<span class="social-icon" aria-label="Email — address pending" title="Email — address pending">
+			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m2 6 10 7 10-7" /></svg>
+		</span>
+	</div>
+</article>
+
+<style>
+	.team-card {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.35rem;
+		padding: 1.75rem;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		background: var(--color-bg);
+	}
+
+	.team-photo {
+		width: 96px;
+		border-radius: 50%;
+		overflow: hidden;
+		margin-bottom: 1rem;
+	}
+
+	.team-photo :global(img) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+	}
+
+	.team-card h3 {
+		margin: 0;
+		font-size: 1.1rem;
+	}
+
+	.position {
+		margin: 0 0 0.75rem;
+		font-size: 0.85rem;
+		font-weight: 600;
+		color: var(--color-primary);
+	}
+
+	.summary {
+		margin: 0 0 0.85rem;
+		font-size: 0.9rem;
+		color: var(--color-text-muted);
+	}
+
+	.specialties {
+		list-style: none;
+		margin: 0 0 1rem;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem;
+	}
+
+	.specialties li {
+		padding: 0.3rem 0.7rem;
+		border: 1px solid var(--color-border);
+		border-radius: 100px;
+		font-size: 0.75rem;
+		font-weight: 600;
+		color: var(--color-text-muted);
+		background: var(--color-surface);
+	}
+
+	.socials {
+		display: flex;
+		gap: 0.5rem;
+		margin-top: auto;
+		padding-top: 0.25rem;
+	}
+
+	.social-icon {
+		width: 32px;
+		height: 32px;
+		border-radius: 50%;
+		border: 1px solid var(--color-border);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: var(--color-text-muted);
+		opacity: 0.6;
+	}
+</style>

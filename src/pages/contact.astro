@@ -2,6 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import TodoNotice from '../components/TodoNotice.astro';
+import TeamCard from '../components/TeamCard.astro';
+import keithPhoto from '../assets/team/keith-nazal.png';
 ---
 
 <BaseLayout title="Contact" description="Contact SANAND SemiConnect Trading for technical support, sourcing inquiries and quotes.">
@@ -10,6 +12,34 @@ import TodoNotice from '../components/TodoNotice.astro';
 			<p class="eyebrow">Contact</p>
 			<h1>Let&rsquo;s Engineer Your Next Material Solution</h1>
 			<p class="lede">Reach out for technical support, sourcing questions or a quote.</p>
+		</div>
+	</section>
+
+	<section class="section-alt">
+		<div class="container">
+			<SectionHeading kicker="Our Team" title="Meet Our Leadership" />
+			<div class="team-grid">
+				<TeamCard
+					name="Keith Dane S. Nazal"
+					position="Co-Founder & Technical Chief Consultant – Assembly Solutions"
+					summary="Mechanical Engineer with over 13 years of semiconductor manufacturing experience across equipment engineering, new product introduction (NPI), process optimization, and technical sales support."
+					specialties={[
+						'Semiconductor Assembly',
+						'Wafer Dicing',
+						'Package Saw',
+						'Die Attach',
+						'Lead Frame Processes',
+						'New Product Introduction (NPI)',
+						'Process Optimization',
+						'Cost Reduction',
+						'Technical Consulting',
+						'Semiconductor Consumables',
+						'Equipment Solutions',
+					]}
+					photo={keithPhoto}
+				/>
+				<TeamCard name="Co-Founder" position="Co-Founder" summary="Profile to be updated." />
+			</div>
 		</div>
 	</section>
 
@@ -83,6 +113,13 @@ import TodoNotice from '../components/TodoNotice.astro';
 	.page-hero {
 		padding-block: 4rem 3rem;
 		background: linear-gradient(180deg, var(--color-surface), var(--color-bg));
+	}
+
+	.team-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+		gap: 1.5rem;
+		max-width: 56rem;
 	}
 
 	.contact-grid {

@@ -2,6 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import TodoNotice from '../components/TodoNotice.astro';
+import TeamCard from '../components/TeamCard.astro';
+import keithPhoto from '../assets/team/keith-nazal.png';
 
 const engineeringServices = [
 	{ title: 'Technical Product Recommendation', detail: 'Matching materials and consumables to your process, tooling and yield targets.' },
@@ -33,6 +35,11 @@ const advantages = [
 				SANAND SemiConnect Trading pairs every supply relationship with hands-on technical
 				support — helping engineering and purchasing teams qualify, optimise and source the
 				right materials.
+			</p>
+			<p class="lede positioning">
+				SANAND SemiConnect Trading is an engineering-driven semiconductor solutions company
+				providing technical consultation, semiconductor consumables, equipment solutions, and
+				strategic sourcing support.
 			</p>
 		</div>
 	</section>
@@ -129,6 +136,34 @@ const advantages = [
 			</ul>
 		</div>
 	</section>
+
+	<section>
+		<div class="container">
+			<SectionHeading kicker="Our Team" title="Leadership Team" />
+			<div class="team-grid">
+				<TeamCard
+					name="Keith Dane S. Nazal"
+					position="Co-Founder & Technical Chief Consultant – Assembly Solutions"
+					summary="Mechanical Engineer with over 13 years of semiconductor manufacturing experience across equipment engineering, new product introduction (NPI), process optimization, and technical sales support."
+					specialties={[
+						'Semiconductor Assembly',
+						'Wafer Dicing',
+						'Package Saw',
+						'Die Attach',
+						'Lead Frame Processes',
+						'New Product Introduction (NPI)',
+						'Process Optimization',
+						'Cost Reduction',
+						'Technical Consulting',
+						'Semiconductor Consumables',
+						'Equipment Solutions',
+					]}
+					photo={keithPhoto}
+				/>
+				<TeamCard name="Co-Founder" position="Co-Founder" summary="Profile to be updated." />
+			</div>
+		</div>
+	</section>
 </BaseLayout>
 
 <style>
@@ -191,5 +226,16 @@ const advantages = [
 		border-left: 3px solid var(--color-primary);
 		background: var(--color-bg);
 		font-size: 0.92rem;
+	}
+
+	.positioning {
+		color: var(--color-text);
+	}
+
+	.team-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+		gap: 1.5rem;
+		max-width: 56rem;
 	}
 </style>
