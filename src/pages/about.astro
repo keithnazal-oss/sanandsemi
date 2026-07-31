@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import TodoNotice from '../components/TodoNotice.astro';
 import TeamCard from '../components/TeamCard.astro';
-import keithPhoto from '../assets/team/keith-nazal.png';
+import { leadershipTeam } from '../lib/team';
 
 const engineeringServices = [
 	{ title: 'Technical Product Recommendation', detail: 'Matching materials and consumables to your process, tooling and yield targets.' },
@@ -137,30 +137,21 @@ const advantages = [
 		</div>
 	</section>
 
-	<section>
+	<section id="leadership-team">
 		<div class="container">
 			<SectionHeading kicker="Our Team" title="Leadership Team" />
 			<div class="team-grid">
-				<TeamCard
-					name="Keith Dane S. Nazal"
-					position="Co-Founder & Technical Chief Consultant – Assembly Solutions"
-					summary="Mechanical Engineer with over 13 years of semiconductor manufacturing experience across equipment engineering, new product introduction (NPI), process optimization, and technical sales support."
-					specialties={[
-						'Semiconductor Assembly',
-						'Wafer Dicing',
-						'Package Saw',
-						'Die Attach',
-						'Lead Frame Processes',
-						'New Product Introduction (NPI)',
-						'Process Optimization',
-						'Cost Reduction',
-						'Technical Consulting',
-						'Semiconductor Consumables',
-						'Equipment Solutions',
-					]}
-					photo={keithPhoto}
-				/>
-				<TeamCard name="Co-Founder" position="Co-Founder" summary="Profile to be updated." />
+				{
+					leadershipTeam.map((member) => (
+						<TeamCard
+							name={member.name}
+							position={member.position}
+							summary={member.summary}
+							specialties={member.specialties}
+							photo={member.photo}
+						/>
+					))
+				}
 			</div>
 		</div>
 	</section>
@@ -237,5 +228,9 @@ const advantages = [
 		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 		gap: 1.5rem;
 		max-width: 56rem;
+	}
+
+	#leadership-team {
+		scroll-margin-top: 90px;
 	}
 </style>

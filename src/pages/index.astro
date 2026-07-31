@@ -5,7 +5,9 @@ import Button from '../components/Button.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import SolutionCard from '../components/SolutionCard.astro';
 import PartnerCard from '../components/PartnerCard.astro';
+import ExecutiveMiniCard from '../components/ExecutiveMiniCard.astro';
 import { withBase } from '../lib/paths';
+import { leadershipTeam } from '../lib/team';
 
 const solutions = (await getCollection('solutions')).sort((a, b) => a.data.order - b.data.order);
 const partners = (await getCollection('partners')).sort((a, b) => a.data.order - b.data.order);
@@ -26,18 +28,36 @@ const whySanand = [
 
 <BaseLayout title="SANAND SemiConnect Trading" description="Supplying semiconductor consumables, process materials, equipment, spare parts, and technical engineering support for semiconductor manufacturing throughout the Philippines.">
 	<section class="hero">
-		<div class="container hero-inner">
-			<p class="eyebrow">Semiconductor Engineering Solutions</p>
-			<h1>Engineering Solutions for Semiconductor Manufacturing</h1>
-			<p class="lede">
-				Supplying semiconductor consumables, process materials, equipment, spare parts, and
-				technical engineering support for semiconductor manufacturing throughout the
-				Philippines.
-			</p>
-			<div class="hero-actions">
-				<Button href={withBase('/request-a-quote')} size="lg">Request a Quote</Button>
-				<Button href={withBase('/solutions')} size="lg" variant="secondary">Explore Solutions</Button>
+		<div class="container hero-grid">
+			<div class="hero-inner">
+				<p class="eyebrow">Semiconductor Engineering Solutions</p>
+				<h1>Engineering Solutions for Semiconductor Manufacturing</h1>
+				<p class="lede">
+					Supplying semiconductor consumables, process materials, equipment, spare parts, and
+					technical engineering support for semiconductor manufacturing throughout the
+					Philippines.
+				</p>
+				<div class="hero-actions">
+					<Button href={withBase('/request-a-quote')} size="lg">Request a Quote</Button>
+					<Button href={withBase('/solutions')} size="lg" variant="secondary">Explore Solutions</Button>
+				</div>
 			</div>
+
+			<aside class="hero-leadership" aria-label="Executive leadership preview">
+				<p class="eyebrow">Leadership</p>
+				<div class="exec-cards">
+					{
+						leadershipTeam.map((member) => (
+							<ExecutiveMiniCard
+								name={member.name}
+								position={member.position}
+								photo={member.photo}
+								href={withBase('/about') + '#leadership-team'}
+							/>
+						))
+					}
+				</div>
+			</aside>
 		</div>
 	</section>
 
@@ -132,6 +152,13 @@ const whySanand = [
 		background: linear-gradient(180deg, var(--color-surface), var(--color-bg));
 	}
 
+	.hero-grid {
+		display: grid;
+		grid-template-columns: 1fr minmax(240px, 300px);
+		gap: 3rem;
+		align-items: center;
+	}
+
 	.hero-inner {
 		max-width: 46rem;
 	}
@@ -145,6 +172,28 @@ const whySanand = [
 		gap: 0.85rem;
 		flex-wrap: wrap;
 		margin-top: 1.75rem;
+	}
+
+	.hero-leadership {
+		display: flex;
+		flex-direction: column;
+		gap: 0.85rem;
+	}
+
+	.exec-cards {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+	}
+
+	@media (max-width: 900px) {
+		.hero-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.hero-leadership {
+			margin-top: 0.5rem;
+		}
 	}
 
 	.eyebrow.center {
